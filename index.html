@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset='utf-8'><title>Dashboard</title>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script></head>
+<body><h2>IT/BPM Dashboard</h2>
+<div id='metrics'></div><canvas id='pie'></canvas>
+<script>
+const api='http://localhost:8000';
+async function load(){
+ let m=await (await fetch(api+'/metrics')).json();
+ document.getElementById('metrics').innerText=JSON.stringify(m,null,2);
+ let ctx=document.getElementById('pie');
+ new Chart(ctx,{type:'pie',data:{labels:['Completed','Delayed','Failed'],
+ datasets:[{data:[m.completed,m.delayed,m.failed]}]}});
+}
+load();
+</script></body></html>
